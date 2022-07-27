@@ -1,0 +1,2727 @@
+{
+  "version": "Notebook/1.0",
+  "items": [
+    {
+      "type": 12,
+      "content": {
+        "version": "NotebookGroup/1.0",
+        "groupType": "editable",
+        "title": "Reservations Dashboard",
+        "items": [
+          {
+            "type": 1,
+            "content": {
+              "json": "# Reservations Dashboard\r\n\r\n## Version 1.0\r\n\r\n### Last Update:02nd of June"
+            },
+            "name": "text - 0"
+          },
+          {
+            "type": 1,
+            "content": {
+              "json": "# Reservations Dashboard"
+            },
+            "name": "text - 0"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "19e29eee-f861-4352-939f-844e07a81105",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Scope",
+                  "type": 2,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"label\":\"Shared\",\"value\":\"'Shared'\"},\r\n    {\"label\":\"Single\",\"value\":\"'Single'\", \"selected\":true}\r\n]\r\n\r\n"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "Scope"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "f8dedc99-defa-491f-9026-138b598e5ceb",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Subscription",
+                  "type": 6,
+                  "value": "/subscriptions/03d5177b-dd39-4e38-a285-9eef412c722c",
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "includeAll": false
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.resourcegraph/resources"
+            },
+            "conditionalVisibility": {
+              "parameterName": "Scope",
+              "comparison": "isEqualTo",
+              "value": "'Single'"
+            },
+            "name": "parameters - 9 - Copy"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "4f24bad2-389c-4bab-aca2-a9b1b88640de",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "BillingID",
+                  "label": "Type of Agreement",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"label\":\"Enterprise Agreement (EA)\",\"value\":\"'EA'\", \"selected\":true},\r\n    {\"label\":\"Microsoft Customer Agreement (MCA)\",\"value\":\"'MCA'\"}\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "conditionalVisibility": {
+              "parameterName": "Scope",
+              "comparison": "isEqualTo",
+              "value": "'Shared'"
+            },
+            "name": "TypeOfAgreement"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "c80619ad-9d86-4b18-84ac-5f9a56c8543b",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "BillingAccount",
+                  "type": 2,
+                  "isRequired": true,
+                  "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2019-10-01-preview\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.value\",\"columns\":[{\"path\":\"name\",\"columnid\":\"BillingAccount\"},{\"path\":\"properties.displayName\",\"columnid\":\"Displayname\"}]}}]}",
+                  "value": null,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "queryType": 12
+                }
+              ],
+              "style": "pills",
+              "queryType": 12
+            },
+            "conditionalVisibilities": [
+              {
+                "parameterName": "BillingID",
+                "comparison": "isEqualTo",
+                "value": "'EA'"
+              },
+              {
+                "parameterName": "Scope",
+                "comparison": "isEqualTo",
+                "value": "'Shared'"
+              }
+            ],
+            "name": "parameters - 5"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "897a7844-f7a7-4175-a418-5a4a19773caa",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "VM",
+                  "label": "Virtual Machines",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                },
+                {
+                  "id": "f310d930-342f-4d13-a1f7-4f00cc68ce54",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "SQLDB",
+                  "label": "SQL Databases",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\"},\r\n    {\"value\":\"No\", \"selected\":true}\r\n]\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "Yes"
+                },
+                {
+                  "id": "babcf494-73eb-44d1-a4c5-82be0bf90be6",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Postgres",
+                  "label": "Postgres SQL",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "\r\n[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "17177c07-1cba-469e-a0f3-a2f115b53f27",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "Disks",
+                  "label": "Managed Disk",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "418c72d5-fd8c-4624-bef9-17840781b7f1",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "AppService",
+                  "label": "App Service",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "9f1d532e-32a7-47b8-8680-0d0aba80135d",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "BlockBlob",
+                  "label": "Storage Account",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "afde70d2-c90f-48a2-897d-f69d69109c46",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "MYSQL",
+                  "label": "My SQL",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "ea63e254-c124-4229-8a61-2786798023d7",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "RedHat",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "f06fe17d-d022-4cdd-bc1d-c13f8dcf6865",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "MariaDB",
+                  "label": "Maria DB",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "72eb597f-bf70-4791-988f-6a52d97475b8",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "RedisCache",
+                  "label": "Redis Cache",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "62906b6d-7ddd-4bb1-b5dc-3fe5ed91a830",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "CosmosDB",
+                  "label": "Cosmos DB",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  },
+                  "value": "No"
+                },
+                {
+                  "id": "b662a82f-a379-4c06-8897-76aef4d42670",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "SQLDataWarehouse",
+                  "label": "Azure Synapse",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]\r\n",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                },
+                {
+                  "id": "f6d9fdd2-d1cc-4347-b73e-522e807da206",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "AzureDataExplorer",
+                  "label": "Azure Data Explorer",
+                  "type": 10,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": []
+                  },
+                  "jsonData": "[\r\n    {\"value\":\"Yes\", \"selected\":true},\r\n    {\"value\":\"No\" }\r\n]",
+                  "timeContext": {
+                    "durationMs": 86400000
+                  }
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "parameters - 8"
+          },
+          {
+            "type": 9,
+            "content": {
+              "version": "KqlParameterItem/1.0",
+              "parameters": [
+                {
+                  "id": "475e8125-9c5b-4551-82f7-5144e3377907",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "LookBackPeriod",
+                  "label": "Lookback period (days)",
+                  "type": 2,
+                  "description": "Select lookback period in days",
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"label\":\"Last 60 days\",\"value\":\"'Last60Days'\", \"selected\":true},\r\n    {\"label\":\"Last 30 days\",\"value\":\"'Last30Days'\"},\r\n    {\"label\":\"Last 7 days\",\"value\":\"'Last7Days'\"}\r\n]\r\n\r\n"
+                },
+                {
+                  "id": "3b6cadf7-37bb-45af-af3d-c206186a99f8",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "ReservationDuration",
+                  "label": "Reservation Duration (Years)",
+                  "type": 2,
+                  "isRequired": true,
+                  "typeSettings": {
+                    "additionalResourceOptions": [],
+                    "showDefault": false
+                  },
+                  "jsonData": "[\r\n    {\"label\":\"3 Years\",\"value\":\"'P3Y'\", \"selected\":true},\r\n    {\"label\":\"1 Year\",\"value\":\"'P1Y'\"}\r\n]\r\n\r\n",
+                  "value": "'P1Y'"
+                }
+              ],
+              "style": "pills",
+              "queryType": 0,
+              "resourceType": "microsoft.operationalinsights/workspaces"
+            },
+            "name": "parameters - 9"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group: VM Reservations Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Virtual Machines Reservations Recommendations\r\nWhen you commit to an Azure reserved VM instance you can save money. The reservation discount is applied automatically to the number of running virtual machines that match the reservation scope and attributes.\r\nYou don't need to assign a reservation to a virtual machine to get the discounts. A reserved instance purchase covers only the compute part of your VM usage. For more information about VMs reservations, see the [Official VM reserved instance Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/virtual-machines/prepay-reserved-vm-instances)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQG6OrB2vo$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "VM RecommendationsVM Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"},{\"path\":\"properties.subscriptionId\",\"columnid\":\"SubscriptionId\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"},{\"path\":\"location\",\"columnid\":\"Location\"}]}}]}",
+                          "size": 0,
+                          "title": "VM Reservations ?$filter=properties/lookBackPeriod eq {LookBackPeriod} AND properties/scope eq {Scope} AND properties/term eq {ReservationDuration}",
+                          "showExportToExcel": true,
+                          "queryType": 12
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "RecommendationsAPI"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resourcecontainers\r\n| where type==\"microsoft.resources/subscriptions\"\r\n",
+                          "size": 0,
+                          "title": "List of Subs (hidden)",
+                          "showRefreshButton": true,
+                          "showExportToExcel": true,
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "value::all"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "List of Subs"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\",\"mergeType\":\"inner\",\"leftTable\":\"RecommendationsAPI\",\"rightTable\":\"List of Subs\",\"leftColumn\":\"SubscriptionId\",\"rightColumn\":\"subscriptionId\"}],\"projectRename\":[{\"originalName\":\"[List of Subs].id\",\"mergedName\":\"Subscription\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].SubscriptionId\",\"mergedName\":\"SubscriptionId\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].LookbackPeriod\",\"mergedName\":\"LookbackPeriod\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].SKUSize\",\"mergedName\":\"SKUSize\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].RecommendedQuantity\",\"mergedName\":\"RecommendedQuantity\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Location\",\"mergedName\":\"Location\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Scope\",\"mergedName\":\"Scope\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].term\",\"mergedName\":\"term\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].CostWithoutReservation\",\"mergedName\":\"Aggregated Cost without reservation\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Savings\",\"mergedName\":\"Savings Monthly\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[Added column]\",\"mergedName\":\"Savings Yearly\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"3\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"1\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[Added column]\",\"mergedName\":\"Total Savings\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"3\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12 * 3\"}},{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"1\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[RecommendationsAPI].Name\"},{\"originalName\":\"[RecommendationsAPI].ID\"},{\"originalName\":\"[List of Subs].name\"},{\"originalName\":\"[List of Subs].type\"},{\"originalName\":\"[List of Subs].kind\"},{\"originalName\":\"[List of Subs].tenantId\"},{\"originalName\":\"[List of Subs].location\"},{\"originalName\":\"[List of Subs].resourceGroup\"},{\"originalName\":\"[List of Subs].subscriptionId\"},{\"originalName\":\"[List of Subs].sku\"},{\"originalName\":\"[List of Subs].managedBy\"},{\"originalName\":\"[List of Subs].plan\"},{\"originalName\":\"[List of Subs].properties\"},{\"originalName\":\"[List of Subs].tags\"},{\"originalName\":\"[List of Subs].identity\"},{\"originalName\":\"[List of Subs].zones\"},{\"originalName\":\"[List of Subs].extendedLocation\"},{\"originalName\":\"[RecommendationsAPI].CostWithReservation\"}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU"
+                            },
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SubscriptionId",
+                              "parameterName": "SubscriptionId",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "Total Savings",
+                              "parameterName": "TotalSavings",
+                              "parameterType": 1
+                            }
+                          ],
+                          "queryType": 7,
+                          "gridSettings": {
+                            "formatters": [
+                              {
+                                "columnMatch": "Aggregated Cost without reservation",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Monthly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Yearly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Total Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Montlhy Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Savings",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": " Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithoutReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency",
+                                    "useGrouping": false
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "sortBy": []
+                        },
+                        "name": "query - 8"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resources | where type =~ 'microsoft.compute/virtualmachines' \r\n| where  tostring (location) has '{ResourceLocation}' and tostring(properties.hardwareProfile.vmSize) == '{ResourceSKU}' and subscriptionId == '{SubscriptionId}'\r\n| extend WindowsId=id, VMName=name, VMLocation=location, VMRG=resourceGroup, OSType=tostring(properties.storageProfile.imageReference.offer), OsVersion = tostring(properties.storageProfile.imageReference.sku), VMSize=tostring (properties.hardwareProfile.vmSize)\r\n    | project WindowsId,VMName,VMRG,VMSize, VMLocation,OSType, OsVersion",
+                          "size": 0,
+                          "title": "'{ResourceSKU}' virtual machines in '{ResourceLocation}'",
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "{Subscription}"
+                          ]
+                        },
+                        "name": "MatchingVMs"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "VM Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "VM Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "title": "VM Reservations ?$filter=properties/lookBackPeriod eq {LookBackPeriod} AND properties/scope eq {Scope} AND properties/term eq {ReservationDuration}",
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12
+                        },
+                        "name": "RecommendationsAPI"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resources | where type =~ 'microsoft.compute/virtualmachines' \r\n| where  tostring (location) has '{ResourceLocation}' and tostring(properties.hardwareProfile.vmSize) == '{ResourceSKU}'\r\n| extend WindowsId=id, VMName=name, VMLocation=location, VMRG=resourceGroup, OSType=tostring(properties.storageProfile.imageReference.offer), OsVersion = tostring(properties.storageProfile.imageReference.sku), VMSize=tostring (properties.hardwareProfile.vmSize)\r\n    | project WindowsId,VMName,VMRG,VMSize, VMLocation,OSType, OsVersion",
+                          "size": 0,
+                          "title": "'{ResourceSKU}' virtual machines in '{ResourceLocation}'",
+                          "queryType": 1,
+                          "resourceType": "microsoft.resources/tenants",
+                          "crossComponentResources": [
+                            "value::tenant"
+                          ]
+                        },
+                        "name": "MatchingVMs"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "VM Recommendations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "VM",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group VM Reservations Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group: SQL Reservations Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# SQL Databases Reservations Recommendations\r\nSave money with Azure SQL Database and SQL Managed Instance by committing to a reservation for compute resources compared to pay-as-you-go prices. \r\nWith reserved capacity, you make a commitment for SQL Database and/or SQL Managed Instance use for a period of one or three years to get a significant discount on the compute costs. To purchase reserved capacity, you need to specify the Azure region, deployment type, performance tier, and term.\r\nFor more information about SQL DB reservations, see the [Official SQL DB reservations Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/azure-sql/database/reserved-capacity-overview)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGnI0CLDg$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "SQL Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'SQLDatabases'\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"},{\"path\":\"properties.subscriptionId\",\"columnid\":\"SubscriptionId\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"},{\"path\":\"location\",\"columnid\":\"Location\"}]}}]}",
+                          "size": 0,
+                          "title": "VM Reservations ?$filter=properties/lookBackPeriod eq {LookBackPeriod} AND properties/scope eq {Scope} AND properties/term eq {ReservationDuration}",
+                          "showExportToExcel": true,
+                          "queryType": 12
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "RecommendationsAPI"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resourcecontainers\r\n| where type==\"microsoft.resources/subscriptions\"\r\n",
+                          "size": 0,
+                          "title": "List of Subs (hidden)",
+                          "showRefreshButton": true,
+                          "showExportToExcel": true,
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "value::all"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "List of Subs"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\",\"mergeType\":\"inner\",\"leftTable\":\"RecommendationsAPI\",\"rightTable\":\"List of Subs\",\"leftColumn\":\"SubscriptionId\",\"rightColumn\":\"subscriptionId\"}],\"projectRename\":[{\"originalName\":\"[List of Subs].id\",\"mergedName\":\"Subscription\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].SubscriptionId\",\"mergedName\":\"SubscriptionId\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].LookbackPeriod\",\"mergedName\":\"LookbackPeriod\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].SKUSize\",\"mergedName\":\"SKUSize\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].RecommendedQuantity\",\"mergedName\":\"RecommendedQuantity\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Location\",\"mergedName\":\"Location\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Scope\",\"mergedName\":\"Scope\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].term\",\"mergedName\":\"term\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].CostWithoutReservation\",\"mergedName\":\"Aggregated Cost without reservation\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Savings\",\"mergedName\":\"Savings Monthly\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[Added column]\",\"mergedName\":\"Savings Yearly\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"3\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"1\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[Added column]\",\"mergedName\":\"Total Savings\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"3\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12 * 3\"}},{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"1\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[RecommendationsAPI].Name\"},{\"originalName\":\"[RecommendationsAPI].ID\"},{\"originalName\":\"[List of Subs].name\"},{\"originalName\":\"[List of Subs].type\"},{\"originalName\":\"[List of Subs].kind\"},{\"originalName\":\"[List of Subs].tenantId\"},{\"originalName\":\"[List of Subs].location\"},{\"originalName\":\"[List of Subs].resourceGroup\"},{\"originalName\":\"[List of Subs].subscriptionId\"},{\"originalName\":\"[List of Subs].sku\"},{\"originalName\":\"[List of Subs].managedBy\"},{\"originalName\":\"[List of Subs].plan\"},{\"originalName\":\"[List of Subs].properties\"},{\"originalName\":\"[List of Subs].tags\"},{\"originalName\":\"[List of Subs].identity\"},{\"originalName\":\"[List of Subs].zones\"},{\"originalName\":\"[List of Subs].extendedLocation\"},{\"originalName\":\"[RecommendationsAPI].CostWithReservation\"}]}",
+                          "size": 0,
+                          "noDataMessage": "No SQL Database recommendations",
+                          "noDataMessageStyle": 3,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU"
+                            },
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SubscriptionId",
+                              "parameterName": "SubscriptionId",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "Total Savings",
+                              "parameterName": "TotalSavings",
+                              "parameterType": 1
+                            }
+                          ],
+                          "queryType": 7,
+                          "gridSettings": {
+                            "formatters": [
+                              {
+                                "columnMatch": "Aggregated Cost without reservation",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Monthly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Yearly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Total Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Montlhy Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Savings",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": " Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithoutReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency",
+                                    "useGrouping": false
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "sortBy": []
+                        },
+                        "name": "query - 8"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "\r\nresources | where type =~ 'Microsoft.Sql/managedInstances' \r\n//| where  tostring (location) has '{ResourceLocation}' and tostring(properties.sku.family) has '{ResourceSKU}' and subscriptionId == '{SubscriptionId}'\r\n//| extend WindowsId=id, VMName=name, VMLocation=location, VMRG=resourceGroup, OSType=tostring(properties.storageProfile.imageReference.offer), OsVersion = tostring(properties.storageProfile.imageReference.sku), VMSize=tostring (properties.hardwareProfile.vmSize)\r\n//    | project WindowsId,VMName,VMRG,VMSize, VMLocation,OSType, OsVersion",
+                          "size": 0,
+                          "title": "'{ResourceSKU}' virtual machines in '{ResourceLocation}'",
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "{Subscription}"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "ResourceLocation",
+                          "comparison": "isNotEqualTo",
+                          "value": " "
+                        },
+                        "name": "MatchingSQLDB"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "SQL Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "SQL Reservations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'SQLDatabases'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "SQL Reservations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "SQLDB",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group SQL Reservations Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group Managed Disk Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Managed Disk Reserved Capacity Recommendations\r\nSave on your Azure Disk Storage usage with reserved capacity. Azure Disk Storage reservations combined with Azure Reserved Virtual Machine Instances let you lower your total virtual machine (VM) costs. The reservation discount is applied automatically to the matching disks in the selected reservation scope. Because of this automatic application, you don't need to assign a reservation to a managed disk to get the discounts.\r\n\r\nDiscounts are applied hourly depending on the disk usage. Unused reserved capacity doesn't carry over. Azure Disk Storage reservation discounts don't apply to unmanaged disks, ultra disks, or page blob consumption.\r\nFor more information about managed disks reserved capacity reservations, see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/virtual-machines/disks-reserved-capacity)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGOuH12mA$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Managed Disks Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'ManagedDisk'\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"},{\"path\":\"properties.subscriptionId\",\"columnid\":\"SubscriptionId\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"},{\"path\":\"location\",\"columnid\":\"Location\"}]}}]}",
+                          "size": 0,
+                          "title": "VM Reservations ?$filter=properties/lookBackPeriod eq {LookBackPeriod} AND properties/scope eq {Scope} AND properties/term eq {ReservationDuration}",
+                          "showExportToExcel": true,
+                          "queryType": 12
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "RecommendationsAPI"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resourcecontainers\r\n| where type==\"microsoft.resources/subscriptions\"\r\n",
+                          "size": 0,
+                          "title": "List of Subs (hidden)",
+                          "showRefreshButton": true,
+                          "showExportToExcel": true,
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "value::all"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "List of Subs"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\",\"mergeType\":\"inner\",\"leftTable\":\"RecommendationsAPI\",\"rightTable\":\"List of Subs\",\"leftColumn\":\"SubscriptionId\",\"rightColumn\":\"subscriptionId\"}],\"projectRename\":[{\"originalName\":\"[List of Subs].id\",\"mergedName\":\"Subscription\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].SubscriptionId\",\"mergedName\":\"SubscriptionId\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].LookbackPeriod\",\"mergedName\":\"LookbackPeriod\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].SKUSize\",\"mergedName\":\"SKUSize\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].RecommendedQuantity\",\"mergedName\":\"RecommendedQuantity\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Location\",\"mergedName\":\"Location\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Scope\",\"mergedName\":\"Scope\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].term\",\"mergedName\":\"term\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].CostWithoutReservation\",\"mergedName\":\"Aggregated Cost without reservation\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Savings\",\"mergedName\":\"Savings Monthly\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[Added column]\",\"mergedName\":\"Savings Yearly\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"3\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"1\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[Added column]\",\"mergedName\":\"Total Savings\",\"fromId\":null,\"isNewItem\":true,\"newItemData\":[{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"3\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12 * 3\"}},{\"criteriaContext\":{\"leftOperand\":\"term\",\"operator\":\"contains\",\"rightValType\":\"static\",\"rightVal\":\"1\",\"resultValType\":\"expression\",\"resultVal\":\"[\\\"Savings Monthly\\\"] * 12\"}},{\"criteriaContext\":{\"operator\":\"Default\",\"rightValType\":\"column\",\"resultValType\":\"column\"}}]},{\"originalName\":\"[RecommendationsAPI].Name\"},{\"originalName\":\"[RecommendationsAPI].ID\"},{\"originalName\":\"[List of Subs].name\"},{\"originalName\":\"[List of Subs].type\"},{\"originalName\":\"[List of Subs].kind\"},{\"originalName\":\"[List of Subs].tenantId\"},{\"originalName\":\"[List of Subs].location\"},{\"originalName\":\"[List of Subs].resourceGroup\"},{\"originalName\":\"[List of Subs].subscriptionId\"},{\"originalName\":\"[List of Subs].sku\"},{\"originalName\":\"[List of Subs].managedBy\"},{\"originalName\":\"[List of Subs].plan\"},{\"originalName\":\"[List of Subs].properties\"},{\"originalName\":\"[List of Subs].tags\"},{\"originalName\":\"[List of Subs].identity\"},{\"originalName\":\"[List of Subs].zones\"},{\"originalName\":\"[List of Subs].extendedLocation\"},{\"originalName\":\"[RecommendationsAPI].CostWithReservation\"}]}",
+                          "size": 0,
+                          "noDataMessage": "No SQL Database recommendations",
+                          "noDataMessageStyle": 3,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU"
+                            },
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SubscriptionId",
+                              "parameterName": "SubscriptionId",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "Total Savings",
+                              "parameterName": "TotalSavings",
+                              "parameterType": 1
+                            }
+                          ],
+                          "queryType": 7,
+                          "gridSettings": {
+                            "formatters": [
+                              {
+                                "columnMatch": "Aggregated Cost without reservation",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Monthly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Yearly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Total Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Montlhy Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Savings",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": " Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithoutReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency",
+                                    "useGrouping": false
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "sortBy": []
+                        },
+                        "name": "query - 8"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "Resources\r\n| extend DiskSKU = split('{ReservationSKU}', \"_\")\r\n| where type =~ 'microsoft.compute/disks'\r\n| extend DiskID=id, DiskName=name, SKUName=sku.name, SKUTier=sku.tier, Tier= properties.tier,DiskSizeGB=tostring(properties.diskSizeGB),DiskRG=resourceGroup, Location=location, TimeCreated=tostring(properties.timeCreated)\r\n| project planId, name, skuname, skutier, workers, maxworkers, webRG, SubscriptionName, DiskSKU, location",
+                          "size": 0,
+                          "title": "Matching Disks in {ResourceLocation}",
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "{Subscription}"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "ReservationSKU",
+                          "comparison": "isNotEqualTo"
+                        },
+                        "name": "Matching Disks"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "Managed Disks Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Managed Disks - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'ManagedDisk'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "title": "Disk Reservations ?$filter=properties/lookBackPeriod eq {LookBackPeriod} AND properties/scope eq {Scope} AND properties/term eq {ReservationDuration}",
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Managed Disks - Shared Scope"
+                },
+                {
+                  "type": 3,
+                  "content": {
+                    "version": "KqlItem/1.0",
+                    "query": "Resources\r\n| extend DiskSKU = split('{ResourceSKU}', \"_\")\r\n| where type =~ 'microsoft.compute/disks'\r\n| extend DiskID=id, DiskName=name, SKUName=sku.name, SKUTier=sku.tier, Tier= properties.tier,DiskSizeGB=tostring(properties.diskSizeGB),DiskRG=resourceGroup, Location=location, TimeCreated=tostring(properties.timeCreated)\r\n| project planId, name, skuname, skutier, workers, maxworkers, webRG, SubscriptionName, DiskSKU, location",
+                    "size": 0,
+                    "title": "Matching Managed Disks in {ResourceLocation}",
+                    "queryType": 1,
+                    "resourceType": "microsoft.resources/tenants",
+                    "crossComponentResources": [
+                      "value::tenant"
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "ReservationSKU",
+                    "comparison": "isNotEqualTo"
+                  },
+                  "name": "Matching Managed Disks"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "Disks",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group Managed Disk Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group: App Service Reservations Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure App Service reserved instances recommendations\r\nWhen you commit to an Azure App Service Premium v3 reserved instance you can save money. The reservation discount is applied automatically to the number of running instances that match the reservation scope and attributes. You don't need to assign a reservation to an instance to get the discounts.\r\nFor more information about App Service reserved instances, see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/prepay-app-service)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGtMaFYM4$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "App Service Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Advisor/recommendations?$filter=Category eq 'Cost'  and RecommendationTypeGuid eq '5b8ddf04-be28-44ec-ab2c-a63a34d1de13'\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2020-01-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Advisor/recommendations')]\",\"columns\":[{\"path\":\"properties.shortDescription.problem\",\"columnid\":\"Recommendation\"},{\"path\":\"properties.extendedProperties.sku\",\"columnid\":\"SKU\"},{\"path\":\"properties.extendedProperties.term\",\"columnid\":\"Term\"},{\"path\":\"properties.extendedProperties.savingsCurrency\",\"columnid\":\"Currency\"},{\"path\":\"properties.extendedProperties.region\",\"columnid\":\"Region\"},{\"path\":\"properties.extendedProperties.annualSavingsAmount\",\"columnid\":\"AnnualSavings\"},{\"path\":\"properties.extendedProperties.savingsAmount\",\"columnid\":\"TotalSavings\"},{\"path\":\"properties.extendedProperties.qty\",\"columnid\":\"Quantity\"},{\"path\":\"properties.extendedProperties.subId\",\"columnid\":\"SubscriptionId\"},{\"path\":\"properties.extendedProperties.scope\",\"columnid\":\"Scope\"}]}}]}",
+                          "size": 0,
+                          "title": "VM Reservations ?$filter=properties/lookBackPeriod eq {LookBackPeriod} AND properties/scope eq {Scope} AND properties/term eq {ReservationDuration}",
+                          "showExportToExcel": true,
+                          "queryType": 12
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "RecommendationsAPI(hidden)"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resourcecontainers\r\n| where type==\"microsoft.resources/subscriptions\"\r\n",
+                          "size": 0,
+                          "title": "List of Subs (hidden)",
+                          "showRefreshButton": true,
+                          "showExportToExcel": true,
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "value::all"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "AlwaysHidden",
+                          "comparison": "isEqualTo",
+                          "value": "true"
+                        },
+                        "name": "List of Subs"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"Merge/1.0\",\"merges\":[{\"id\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\",\"mergeType\":\"inner\",\"leftTable\":\"RecommendationsAPI(hidden)\",\"rightTable\":\"List of Subs\",\"leftColumn\":\"SubscriptionId\",\"rightColumn\":\"subscriptionId\"}],\"projectRename\":[{\"originalName\":\"[RecommendationsAPI].SubscriptionId\",\"mergedName\":\"SubscriptionId\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].LookbackPeriod\",\"mergedName\":\"LookbackPeriod\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Location\",\"mergedName\":\"Location\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Recommendation\",\"mergedName\":\"Recommendation\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].SKU\",\"mergedName\":\"SKU\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Quantity\",\"mergedName\":\"Quantity\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Term\",\"mergedName\":\"Term\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Region\",\"mergedName\":\"Location\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].Currency\",\"mergedName\":\"Currency\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].AnnualSavings\",\"mergedName\":\"AnnualSavings\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI].TotalSavings\",\"mergedName\":\"TotalSavings\",\"fromId\":\"unknown\"},{\"originalName\":\"[RecommendationsAPI(hidden)].Recommendation\",\"mergedName\":\"Recommendation\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].SKU\",\"mergedName\":\"SKU\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].Term\",\"mergedName\":\"Term\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].Currency\",\"mergedName\":\"Currency\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].Region\",\"mergedName\":\"Region\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].AnnualSavings\",\"mergedName\":\"AnnualSavings\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].TotalSavings\",\"mergedName\":\"TotalSavings\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].Quantity\",\"mergedName\":\"Quantity\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].SubscriptionId\",\"mergedName\":\"SubscriptionId\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI(hidden)].Scope\",\"mergedName\":\"Scope\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[List of Subs].id\",\"mergedName\":\"id\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[List of Subs].name\",\"mergedName\":\"name\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[List of Subs].extendedLocation\",\"mergedName\":\"extendedLocation\",\"fromId\":\"a3e55721-421b-41ea-b50a-c7db156e40c5\"},{\"originalName\":\"[RecommendationsAPI].Name\"},{\"originalName\":\"[RecommendationsAPI].ID\"},{\"originalName\":\"[List of Subs].name\"},{\"originalName\":\"[List of Subs].type\"},{\"originalName\":\"[List of Subs].kind\"},{\"originalName\":\"[List of Subs].tenantId\"},{\"originalName\":\"[List of Subs].location\"},{\"originalName\":\"[List of Subs].resourceGroup\"},{\"originalName\":\"[List of Subs].subscriptionId\"},{\"originalName\":\"[List of Subs].sku\"},{\"originalName\":\"[List of Subs].managedBy\"},{\"originalName\":\"[List of Subs].plan\"},{\"originalName\":\"[List of Subs].properties\"},{\"originalName\":\"[List of Subs].tags\"},{\"originalName\":\"[List of Subs].identity\"},{\"originalName\":\"[List of Subs].zones\"},{\"originalName\":\"[List of Subs].extendedLocation\"},{\"originalName\":\"[RecommendationsAPI].CostWithReservation\"}]}",
+                          "size": 0,
+                          "title": "App Service recommendations",
+                          "noDataMessage": "No SQL Database recommendations",
+                          "noDataMessageStyle": 3,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "SubscriptionId",
+                              "parameterName": "SubscriptionId",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "Total Savings",
+                              "parameterName": "TotalSavings",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKU",
+                              "parameterName": "ResourceSKU1",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "Region",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            }
+                          ],
+                          "queryType": 7,
+                          "gridSettings": {
+                            "formatters": [
+                              {
+                                "columnMatch": "AnnualSavings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "TotalSavings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Cost without reservation",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Monthly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Savings Yearly",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Total Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Montlhy Savings",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "Aggregated Savings",
+                                "formatter": 5,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": " Aggregated Cost with reservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 0,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithoutReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency",
+                                    "useGrouping": false
+                                  }
+                                }
+                              },
+                              {
+                                "columnMatch": "CostWithReservation",
+                                "formatter": 1,
+                                "numberFormat": {
+                                  "unit": 17,
+                                  "options": {
+                                    "currency": "USD",
+                                    "style": "currency"
+                                  }
+                                }
+                              }
+                            ]
+                          },
+                          "sortBy": []
+                        },
+                        "name": "App Service recommendations"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "resources\r\n| where type == \"microsoft.web/serverfarms\" and location == '{ResourceLocation}'\r\n| extend AppServiceSKU = split('{ResourceSKU1}', \"_\")\r\n| where tostring(sku.tier) == AppServiceSKU[2]\r\n| extend  skuname = tostring(sku.name) ,WebAppId=id, skutier = tostring(sku.tier), workers=tostring(properties.numberOfWorkers),webRG=resourceGroup,maxworkers=tostring(properties.maximumNumberOfWorkers),WebAppName=name, Location=location\r\n| project WebAppId,WebAppName,skuname,skutier,workers, maxworkers,webRG,Location",
+                          "size": 0,
+                          "title": "'{ResourceSKU1}' virtual machines in '{ResourceLocation}'",
+                          "queryType": 1,
+                          "resourceType": "microsoft.resourcegraph/resources",
+                          "crossComponentResources": [
+                            "{Subscription}"
+                          ]
+                        },
+                        "conditionalVisibility": {
+                          "parameterName": "ResourceLocation",
+                          "comparison": "isNotEqualTo",
+                          "value": " "
+                        },
+                        "name": "MatchingAppService"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "App Service Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "App Service Reservations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'AppService'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      },
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "Resources\r\n| extend AppServiceSKU = split('{ResourceSKU}', \"_\")\r\n| where type == \"microsoft.web/serverfarms\" \r\n| extend  planId=tolower(tostring(id)),skuname = tostring(sku.name) , skutier = tostring(sku.tier), workers=tostring(properties.numberOfWorkers),webRG=resourceGroup,maxworkers=tostring(properties.maximumNumberOfWorkers), SubscriptionName=subscriptionId, location\r\n| where skutier =~ AppServiceSKU.[3] and location == '{ResourceLocation}'\r\n| project planId, name, skuname, skutier, workers, maxworkers, webRG, SubscriptionName, AppServiceSKU[3], location",
+                          "size": 0,
+                          "title": "Matching AppService in {ResourceLocation}",
+                          "queryType": 1,
+                          "resourceType": "microsoft.resources/tenants",
+                          "crossComponentResources": [
+                            "value::tenant"
+                          ]
+                        },
+                        "name": "Matching AppService"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "App Service Reservations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "AppService",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group App Service Reservations Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group Storage Account Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure Storage reserved capacity recommendations\r\nYou can save money on storage costs for blob data with Azure Storage reserved capacity. Azure Storage reserved capacity offers you a discount on capacity for block blobs and for Azure Data Lake Storage Gen2 data in standard storage accounts when you commit to a reservation for either one year or three years. A reservation provides a fixed amount of storage capacity for the term of the reservation.\r\nFor more information about blob storage reservations, see the [Official Azure Storage reserved capacity Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-reserved-capacity)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGiNDtO4A$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Storage Account Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'Blockbob' \",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Shared"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "Storage Account Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Storage Account  - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'BlockBlob'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Storage Account  - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "BlockBlob",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group Storage Account Shared / Single Scope "
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group Postgres SQL Shared / Single Scope ",
+              "items": [
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Postgres SQL Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'PostgreSQL' \",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Shared"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "Postgres SQL Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Postgres SQL - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'PostgreSQL'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Postgres SQL  - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "Postgres",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group Postgres SQL Shared / Single Scope  - Copy"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group MySQL Shared / Single Scope ",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure Database for MySQL reservations recommendations\r\nAzure Database for MySQL now helps you save money by prepaying for compute resources compared to pay-as-you-go prices. With Azure Database for MySQL reserved instances, you make an upfront commitment on MySQL server for a one or three year period to get a significant discount on the compute costs. To purchase Azure Database for MySQL reserved capacity, you need to specify the Azure region, deployment type, performance tier, and term.\r\nFor more information about Azure Database for MySQL reservations , see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/mysql/single-server/concept-reserved-pricing)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGHn-ZFQ0$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "MySQL Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'MySQL' \",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "MySQL Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "MySQL  Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'MySQL'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "MySQL   - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "MYSQL",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group MySQL Shared / Single Scope "
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group RedHat Shared / Single Scope ",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure RedHat recommendations\r\nWhen you prepay for your SUSE and RedHat software usage in Azure, you can save money over your pay-as-you-go costs. The discounts only apply to SUSE and RedHat meters and not on the virtual machine usage. You can buy reservations for virtual machines separately for additional savings.\r\n\r\nFor more information about RedHat reservations , see the [Official Prepay for Azure software plans Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/virtual-machines/linux/prepay-suse-software-chargesg)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGuA9EDdw$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "RedHat Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'RedHat' \",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "RedHat Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "RedHat Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'RedHat'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "RedHat - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "RedHat",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group RedHat Shared / Single Scope "
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group MariaDB Shared / Single Scope ",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure Database for MariaDB reserved capacity recommendations\r\nAzure Database for MariaDB now helps you save money by prepaying for compute resources compared to pay-as-you-go prices. With Azure Database for MariaDB reserved capacity, you make an upfront commitment on MariaDB servers for a one or three year period to get a significant discount on the compute costs. To purchase Azure Database for MariaDB reserved capacity, you need to specify the Azure region, deployment type, performance tier, and term.\r\n\r\nFor more information about MariaDB reserved capacity, see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/mariadb/concept-reserved-pricing)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGKCMXHvQ$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "MariaDB Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'MariaDB' \",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "MariaDB Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "MariaDB Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'MariaDB'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "MariaDB - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "MariaDB",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group MariaDB Shared / Single Scope "
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group Redis Cache Shared / Single Scope ",
+              "items": [
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "RedisCache Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'RedisCache' \",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "RedisCache Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Redis Cache  Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'RedisCache'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Redis Cache  Recommendations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "RedisCache",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group Redis Cache Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Group Cosmos DB Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure Cosmos DB reserved capacity recommendations\r\nAzure Cosmos DB reserved capacity helps you save money by committing to a reservation for Azure Cosmos DB resources for either one year or three years. With Azure Cosmos DB reserved capacity, you can get a discount on the throughput provisioned for Cosmos DB resources. Examples of resources are databases and containers (tables, collections, and graphs).\r\n\r\nFor more information about Cosmos DB reserved capacity, see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/cosmos-db/cosmos-db-reserved-capacity)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQG4Ve00Ww$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "CosmosDB Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'CosmosDB'\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "CosmosDB Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Cosmos DB Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'CosmosDB'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Cosmos DB Recommendations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "CosmosDB",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Group Cosmos DB Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": "Azure Synapse Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure Synapse Analytics (data warehousing only) Reserved Capacity Recommendations\r\nYou can save money with Azure Synapse Analytics (data warehousing only) by committing to a reservation for your cDWU usage for a duration of one or three years. To purchase Azure Synapse Analytics reserved capacity, you need to choose the Azure region, and term. Then, add the Azure Synapse Analytics SKU to your cart and choose the quantity of cDWU units that you want to purchase.\r\n\r\nWhen you purchase a reservation, the Azure Synapse Analytics usage that matches the reservation attributes is no longer charged at the pay-as-you go rates.\r\n\r\nA reservation doesn't cover storage or networking charges associated with the Azure Synapse Analytics usage, it only covers data warehousing usage.\r\n\r\nFor more information about Synapse reserved capacity, see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/prepay-sql-data-warehouse-charges)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGP1ZWdMg$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Azure Synapse Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'SQLDataWarehouse'\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "Azure Synapse Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Azure Synapse  Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'SQLDataWarehouse'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Azure Synapse Recommendations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "SQLDataWarehouse",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": "Azure Synapse Shared / Single Scope"
+          },
+          {
+            "type": 12,
+            "content": {
+              "version": "NotebookGroup/1.0",
+              "groupType": "editable",
+              "title": " Azure Data Explorer  Shared / Single Scope",
+              "items": [
+                {
+                  "type": 1,
+                  "content": {
+                    "json": "# Azure Data Explorer Reserved Capacity Recommendations\r\nSave money with Azure Data Explorer by prepaying for the markup units compared to pay-as-you-go prices. With Azure Data Explorer reserved capacity, you make a commitment for Azure Data Explorer use for a period of one or three years to get a significant discount on the Azure Data Explorer markup costs. To purchase Azure Data Explorer reserved capacity, you only need to specify the term, it will apply to all deployments of Azure Data Explorer in all regions.\r\n\r\nFor more information about Data Explorer reserved capacity, see the [Official Documentation.](https://urldefense.com/v3/__https://docs.microsoft.com/en-us/azure/data-explorer/pricing-reserved-capacity)*5Cr*5Cn*5Cr*5Cn*5Cr*5Cn__;JSUlJSUl!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGxTh7_Xs$ ",
+                    "style": "upsell"
+                  },
+                  "name": "text - 5"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Azure Data Explorer Recommendations - Single Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/subscriptions/{Subscription:id}/providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope}  AND properties/term eq {ReservationDuration} AND properties/resourceType eq 'AzureDataExplorer'\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"name\",\"columnid\":\"Name\"},{\"path\":\"id\",\"columnid\":\"ID\"}]}}]}",
+                          "size": 0,
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "API Single"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Single'"
+                  },
+                  "name": "Azure Data Explorer Recommendations - Single Scope"
+                },
+                {
+                  "type": 12,
+                  "content": {
+                    "version": "NotebookGroup/1.0",
+                    "groupType": "editable",
+                    "title": "Azure Data Explorer Recommendations - Shared Scope",
+                    "items": [
+                      {
+                        "type": 3,
+                        "content": {
+                          "version": "KqlItem/1.0",
+                          "query": "{\"version\":\"ARMEndpoint/1.0\",\"data\":null,\"headers\":[],\"method\":\"GET\",\"path\":\"/providers/Microsoft.Billing/billingAccounts/{BillingAccount}//providers/Microsoft.Consumption/reservationRecommendations?$filter=properties/lookBackPeriod eq {LookBackPeriod}  AND properties/scope eq {Scope} AND properties/resourceType eq 'AzureDataExplorer'  AND properties/term eq {ReservationDuration}\",\"urlParams\":[{\"key\":\"api-version\",\"value\":\"2021-10-01\"}],\"batchDisabled\":false,\"transformers\":[{\"type\":\"jsonpath\",\"settings\":{\"tablePath\":\"$.*[?(@.type=='Microsoft.Consumption/reservationRecommendations')]\",\"columns\":[{\"path\":\"sku\",\"columnid\":\"SKUSize\"},{\"path\":\"properties.recommendedQuantity\",\"columnid\":\"RecommendedQuantity\"},{\"path\":\"properties.term\",\"columnid\":\"term\"},{\"path\":\"properties.costWithNoReservedInstances\",\"columnid\":\"CostWithoutReservation\"},{\"path\":\"location\",\"columnid\":\"Location\"},{\"path\":\"properties.totalCostWithReservedInstances\",\"columnid\":\"CostWithReservation\"},{\"path\":\"properties.netSavings\",\"columnid\":\"Savings\"},{\"path\":\"properties.scope\",\"columnid\":\"Scope\"},{\"path\":\"properties.lookBackPeriod\",\"columnid\":\"LookbackPeriod\"}]}}]}",
+                          "size": 0,
+                          "exportedParameters": [
+                            {
+                              "fieldName": "Location",
+                              "parameterName": "ResourceLocation",
+                              "parameterType": 1
+                            },
+                            {
+                              "fieldName": "SKUSize",
+                              "parameterName": "ResourceSKU",
+                              "parameterType": 1
+                            }
+                          ],
+                          "showExportToExcel": true,
+                          "queryType": 12,
+                          "gridSettings": {
+                            "sortBy": [
+                              {
+                                "itemKey": "CostWithoutReservation",
+                                "sortOrder": 1
+                              }
+                            ]
+                          },
+                          "sortBy": [
+                            {
+                              "itemKey": "CostWithoutReservation",
+                              "sortOrder": 1
+                            }
+                          ]
+                        },
+                        "name": "RecommendationsAPI"
+                      }
+                    ]
+                  },
+                  "conditionalVisibility": {
+                    "parameterName": "Scope",
+                    "comparison": "isEqualTo",
+                    "value": "'Shared'"
+                  },
+                  "name": "Azure Data Explorer Recommendations - Shared Scope"
+                }
+              ]
+            },
+            "conditionalVisibility": {
+              "parameterName": "AzureDataExplorer",
+              "comparison": "isEqualTo",
+              "value": "Yes"
+            },
+            "name": " Azure Data Explorer  Shared / Single Scope"
+          }
+        ]
+      },
+      "name": "group - 0"
+    }
+  ],
+  "fallbackResourceIds": [
+    "Azure Monitor"
+  ],
+  "$schema": "https://urldefense.com/v3/__https://github.com/Microsoft/Application-Insights-Workbooks/blob/master/schema/workbook.json__;!!PyqGXjU!PlPWM9yAuqmPPJz5SFiGz1xMNtxMcHj3eoAl6oKYr2tdakEC_rPV-eQDFyPXCZ9E5alb5pIn_-CrmcUMuqQGUTQ-zOo$ "
+}
